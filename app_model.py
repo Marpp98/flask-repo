@@ -18,6 +18,7 @@ def hello(): # Ligado al endopoint "/" o sea el home, con el método GET
     return "Bienvenido a mi API del modelo advertising"
 
 # Enruta la funcion al endpoint /api/v1/predict
+@app.route("/api/v1/predict", methods = ["GET"])
 def predict(): # Ligado al endpoint '/api/v1/predict', con el método GET
     with open('ad_model.pkl', 'rb') as f:
         model = pickle.load(f)
@@ -37,6 +38,7 @@ def predict(): # Ligado al endpoint '/api/v1/predict', con el método GET
     return jsonify({'predictions': prediction[0]})
 
 # Enruta la funcion al endpoint /api/v1/retrain
+@app.route("/api/v1/retrain/", methods = ["GET"])
 def retrain(): # Ligado al endpoint '/api/v1/retrain/', metodo GET
     if os.path.exists("data/Advertising_new.csv"):
         data = pd.read_csv('data/Advertising_new.csv')
@@ -59,5 +61,5 @@ def retrain(): # Ligado al endpoint '/api/v1/retrain/', metodo GET
         return f"<h2>New data for retrain NOT FOUND. Nothing done!</h2>"
 
 
-if __name__=="__main__":
+if __name__=="__main__": #cuando ejecute el archivo que levante una instancia en local
     app.run(debug=True)
